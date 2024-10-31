@@ -1,5 +1,4 @@
-import 'package:app_wheater/pages/weather_page.dart';
-import 'package:app_wheater/pages/weather_page1.dart';
+import 'package:app_wheater/pages/home.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: WeatherPage(),
+      home: Home(),
     );
   }
 }
