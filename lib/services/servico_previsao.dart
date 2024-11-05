@@ -11,7 +11,7 @@ class ServicoPrevisao {
 
   Future<PrevisaoTempo> getPrevisao(String nomeCidade) async {
     final resposta = await http
-        .get(Uri.parse('$URL?q=$nomeCidade&appid=$API_KEY&units=metric&lang=pt_br'));
+        .get(Uri.parse('$URL?q=$nomeCidade&appid=$API_KEY&units=metric'));
 
     if(resposta.statusCode == 200) {
       print('Dados: ${resposta.body}');

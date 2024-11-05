@@ -13,7 +13,7 @@ class PrevisaoTempo {
     return PrevisaoTempo(
       nomeCidade: json['name'],
       temperatura: json['main']['temp'],
-      condicaoClimatica: json['weather'][0]['description']
+      condicaoClimatica: json['weather'][0]['main']
     );
   }
 }

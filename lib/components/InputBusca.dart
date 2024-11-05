@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class InputBusca extends StatefulWidget {
   final TextEditingController controlador;
   final Function(String) cidadeSelecionada;
+  final String? nomeCidade;
 
-  InputBusca({required this.controlador, required this.cidadeSelecionada});
+  InputBusca({required this.controlador, required this.cidadeSelecionada, required this.nomeCidade});
 
   @override
   State<StatefulWidget> createState() => _InputBuscaState();
@@ -31,8 +32,8 @@ class _InputBuscaState extends State<InputBusca> {
         children: [
           Icon(Icons.location_on, size: 30, color: Color(0xFF676767)),
           Text(
-            widget.controlador.text.isNotEmpty
-                ? widget.controlador.text
+            widget.nomeCidade?.isNotEmpty == true
+                ? widget.nomeCidade!
                 : 'Cidade não encontrada',
             style: TextStyle(color: Color(0xFF676767), fontSize: 16),
           ),
@@ -42,6 +43,7 @@ class _InputBuscaState extends State<InputBusca> {
   }
 
   Widget _buildInputBusca() {
+    controladorBusca.clear();
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
