@@ -83,6 +83,8 @@ class _HomePageState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             alignment: Alignment.center,
@@ -94,26 +96,26 @@ class _HomePageState extends State<Home> {
             ),
           ),
           Container(
-            child: Column(
-              children: [
-                Lottie.asset(escolherAnimacao('${_previsaoTempo?.condicaoClimatica}')),
-                Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${_previsaoTempo?.temperatura.toStringAsFixed(0)}°',
-                        style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Text('Dom', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                    ],
+            child: Lottie.asset(
+                escolherAnimacao('${_previsaoTempo?.condicaoClimatica}')),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 40.0),
+            child: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    '${_previsaoTempo?.temperatura.toStringAsFixed(0)}°',
+                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ],
+                  Text(
+                    '${_previsaoTempo?.diaSemana}',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
