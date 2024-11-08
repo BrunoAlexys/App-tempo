@@ -16,6 +16,7 @@ class _HomePageState extends State<Home> {
   PrevisaoTempo? _previsaoTempo;
   final TextEditingController _controladorDeBusca = TextEditingController();
   String? nomeCidadeApi;
+  bool ehNoite = false;
 
   _inicial() async {
     try {
@@ -25,11 +26,16 @@ class _HomePageState extends State<Home> {
       setState(() {
         _previsaoTempo = previsao;
         nomeCidadeApi = previsao.nomeCidade;
+        _atualizarEhNoite();
       });
       _controladorDeBusca.text = cidadeAtual;
     } catch (e) {
       print('Erro ao buscar a cidade atual: $e');
     }
+  }
+  _atualizarEhNoite() {
+    int horaAtual = DateTime.now().hour;
+    ehNoite = horaAtual >= 18 || horaAtual < 6;
   }
 
   _buscarPrevisaoTempo(String cidade) async {
@@ -38,6 +44,7 @@ class _HomePageState extends State<Home> {
       setState(() {
         _previsaoTempo = previsao;
         nomeCidadeApi = previsao.nomeCidade;
+        _atualizarEhNoite();
       });
     } catch (e) {
       print('Erro ao buscar a cidade pelo nome: $e');
@@ -45,31 +52,36 @@ class _HomePageState extends State<Home> {
   }
 
   String escolherAnimacao(String? condicaoClimatica) {
-    if (condicaoClimatica == null) return 'assets/sol.json'; // Default
-    print('Cindição Climatica: $condicaoClimatica');
+    _atualizarEhNoite();
+
+
+    if (condicaoClimatica == null) {
+      return ehNoite ? 'assets/noite.json' : 'assets/sol.json';
+    }
     switch (condicaoClimatica.toLowerCase()) {
       case 'clouds':
-        return 'assets/nuvem.json';
+        return ehNoite ? 'assets/nublado-noite.json' : 'assets/nuvem.json';
       case 'mist':
-        return 'assets/neblina.json';
+        return ehNoite ? 'assets/neblina-noite.json': 'assets/neblina.json';
       case 'smoke':
-        return 'assets/neblina.json';
+        return ehNoite ? 'assets/neblina-noite.json': 'assets/neblina.json';
       case 'haze':
-        return 'assets/neblina.json';
+        return  ehNoite ? 'assets/neblina-noite.json': 'assets/neblina.json';
       case 'fog':
-        return 'assets/neblina.json';
+        return ehNoite ? 'assets/neblina-noite.json': 'assets/neblina.json';
       case 'rain':
-        return 'assets/chuva.json';
+        return ehNoite ? 'assets/chuva-noite.json' : 'assets/chuva.json';
       case 'drizzle':
-        return 'assets/chuva.json';
+        return ehNoite ? 'assets/chuva-noite.json' : 'assets/chuva.json';
       case 'shower rain':
-        return 'assets/chuva.json';
+        return ehNoite ? 'assets/chuva-noite.json' : 'assets/chuva.json';
       case 'thunderstorm':
-        return 'assets/tempestade.json';
+        return ehNoite ? 'assets/trovao-noite.json' : 'assets/tempestade.json';
       case 'clear':
-        return 'assets/sol.json';
+        return ehNoite ? 'assets/noite.json' : 'assets/sol.json';
       default:
-        return 'assets/sol.json';
+        return ehNoite ? 'assets/noite.json' : 'assets/sol.json';
+
     }
   }
 
@@ -82,43 +94,45 @@ class _HomePageState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.only(top: 60.0),
-            child: InputBusca(
-              controlador: _controladorDeBusca,
-              cidadeSelecionada: _buscarPrevisaoTempo,
-              nomeCidade: nomeCidadeApi,
-            ),
-          ),
-          Container(
-            child: Lottie.asset(
-                escolherAnimacao('${_previsaoTempo?.condicaoClimatica}')),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 40.0),
-            child: Container(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    '${_previsaoTempo?.temperatura.toStringAsFixed(0)}°',
-                    style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    '${_previsaoTempo?.diaSemana}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.only(top: 60.0),
+              child: InputBusca(
+                controlador: _controladorDeBusca,
+                cidadeSelecionada: _buscarPrevisaoTempo,
+                nomeCidade: nomeCidadeApi,
               ),
             ),
-          ),
-        ],
+            Container(
+              child: Lottie.asset(
+                  escolherAnimacao('${_previsaoTempo?.condicaoClimatica}')),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 40.0),
+              child: Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${_previsaoTempo?.temperatura.toStringAsFixed(0)}°',
+                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${_previsaoTempo?.diaSemana}',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
