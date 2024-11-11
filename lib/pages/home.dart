@@ -95,6 +95,7 @@ class _HomePageState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        color: ehNoite ?  Color(0xFF181717) : Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,11 +122,19 @@ class _HomePageState extends State<Home> {
                   children: [
                     Text(
                       '${_previsaoTempo?.temperatura.toStringAsFixed(0)}°',
-                      style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold,
+                          color: ehNoite ? Colors.white : Color(0xFF181717)
+                      ),
                     ),
                     Text(
                       '${_previsaoTempo?.diaSemana}',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: ehNoite ? Colors.white : Color(0xFF181717)
+                      ),
                     ),
                   ],
                 ),
