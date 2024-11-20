@@ -6,15 +6,14 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
 class ServicoPrevisao {
-  static const URL = 'https://api.openweathermap.org/data/2.5/weather';
+  static const URL = 'https://api.openweathermap.org/data/2.5/forecast';
   static const API_KEY = 'b7ccd6900ec20af015dc3beeb6220ace';
 
-  Future<PrevisaoTempo> getPrevisao(String nomeCidade) async {
+  Future<List<PrevisaoTempo>> getPrevisao(String nomeCidade) async {
     final resposta = await http
         .get(Uri.parse('$URL?q=$nomeCidade&appid=$API_KEY&units=metric'));
 
     if(resposta.statusCode == 200) {
-      print('Dados: ${resposta.body}');
       return PrevisaoTempo.fromJson(jsonDecode(resposta.body));
     } else {
       throw Exception('Não foi possivel encontrar os dados da previsão');
@@ -33,9 +32,7 @@ class ServicoPrevisao {
 
     List<Placemark> placemarks =
           await placemarkFromCoordinates(posicao.latitude, posicao.longitude);
-    print('Place: $placemarks');
     String? cidade = placemarks[0].subAdministrativeArea;
-    print('Cidade atual: $cidade');
     return cidade ?? 'Cidade não encontrada';
   }
 }
