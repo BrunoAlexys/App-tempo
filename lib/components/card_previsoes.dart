@@ -71,7 +71,7 @@ class CardPrevisoes extends StatelessWidget {
               SizedBox(height: 2),
               Text(
                 previsao.diaSemana,
-                style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
               ),
             ],
           );

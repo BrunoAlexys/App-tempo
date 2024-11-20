@@ -131,6 +131,7 @@ class _HomePageState extends State<Home> {
                         ehNoite: ehNoite,
                       ),
                     ),
+                    SizedBox(height: 80,),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
